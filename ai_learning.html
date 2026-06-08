@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Automation Roadmap — 6 Week Curriculum</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0A0A0B;
+    --surface: #111114;
+    --surface2: #18181C;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --text: #F0EFE8;
+    --muted: #888880;
+    --accent: #C8F060;
+    --accent2: #60D4F0;
+    --accent3: #F060A8;
+    --w1: #60A8F0;
+    --w2: #60D4F0;
+    --w3: #C8F060;
+    --w4: #F0C860;
+    --w5: #F09060;
+    --w6: #C860F0;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* NOISE TEXTURE */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    padding: 100px 40px 80px;
+    max-width: 1100px;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+  .hero-glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    top: -200px;
+    right: -100px;
+    background: radial-gradient(circle, rgba(200,240,96,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+  }
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(42px, 6vw, 80px);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    margin-bottom: 24px;
+  }
+  h1 span { color: var(--accent); }
+  .hero-sub {
+    font-size: 16px;
+    color: var(--muted);
+    max-width: 560px;
+    line-height: 1.8;
+    margin-bottom: 40px;
+  }
+  .hero-meta {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .meta-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .meta-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* RULE NOTE */
+  .rule-box {
+    max-width: 1100px;
+    margin: 0 auto 60px;
+    padding: 0 40px;
+  }
+  .rule-inner {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-left: 3px solid var(--accent);
+    border-radius: 10px;
+    padding: 18px 22px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .rule-icon {
+    font-family: 'DM Mono', monospace;
+    font-size: 18px;
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .rule-text { font-size: 13px; color: var(--muted); line-height: 1.7; }
+  .rule-text strong { color: var(--text); }
+
+  /* WEEK TABS NAV */
+  .week-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,10,11,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+  }
+  .week-nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .week-nav-inner::-webkit-scrollbar { display: none; }
+  .wk-tab {
+    padding: 16px 22px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    cursor: pointer;
+    border: none;
+    background: none;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .wk-tab:hover { color: var(--text); }
+  .wk-tab.on { color: var(--text); border-bottom-color: currentColor; }
+  .wk-tab .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.6;
+  }
+
+  /* WEEK SECTIONS */
+  .week-section { display: none; padding: 0 40px 80px; }
+  .week-section.on { display: block; }
+  .week-inner { max-width: 1100px; margin: 0 auto; }
+
+  /* WEEK HEADER */
+  .week-header {
+    padding: 52px 0 36px;
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 40px;
+  }
+  .week-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 80px;
+    font-weight: 800;
+    line-height: 1;
+    opacity: 0.08;
+    flex-shrink: 0;
+    letter-spacing: -0.05em;
+  }
+  .week-info { flex: 1; }
+  .week-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+  .week-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .week-desc { font-size: 14px; color: var(--muted); max-width: 600px; }
+
+  /* CONTENT GRID */
+  .content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  @media (max-width: 720px) {
+    .content-grid { grid-template-columns: 1fr; }
+    .hero { padding: 60px 24px 60px; }
+    .week-section { padding: 0 24px 60px; }
+    .rule-box { padding: 0 24px; }
+    .week-nav { padding: 0 24px; }
+    h1 { font-size: 36px; }
+  }
+
+  /* RESOURCE COLUMNS */
+  .res-col { display: flex; flex-direction: column; gap: 12px; }
+  .col-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 4px;
+  }
+
+  /* RESOURCE CARD */
+  .res-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.15s, background 0.15s;
+    cursor: pointer;
+  }
+  .res-card:hover {
+    border-color: var(--border2);
+    background: var(--surface2);
+  }
+  .res-card.fresh { border-left: 2px solid var(--accent); }
+  .res-card.docs { border-left: 2px solid var(--accent2); }
+  .res-card.tool { border-left: 2px solid var(--accent3); }
+  .res-logo {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    background: var(--surface2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 14px;
+  }
+  .res-body { flex: 1; min-width: 0; }
+  .res-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 3px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .res-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  .badge-free { background: rgba(200,240,96,0.12); color: var(--accent); }
+  .badge-must { background: rgba(240,96,168,0.12); color: var(--accent3); }
+  .badge-new { background: rgba(96,212,240,0.12); color: var(--accent2); }
+  .badge-updated { background: rgba(240,200,96,0.15); color: var(--w4); }
+
+  /* PROJECT BOX */
+  .project-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 22px;
+    margin-top: 4px;
+  }
+  .project-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .project-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+  .project-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 40px;
+    text-align: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .week-section.on .week-header,
+  .week-section.on .content-grid,
+  .week-section.on .project-box {
+    animation: fadeUp 0.3s ease both;
+  }
+  .week-section.on .content-grid { animation-delay: 0.05s; }
+  .week-section.on .project-box { animation-delay: 0.1s; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="eyebrow">AI Automation Roadmap 2025–26</div>
+  <h1>6 Weeks to<br><span>AI Engineer</span></h1>
+  <p class="hero-sub">A curated, updated curriculum — APIs to autonomous agents. Every resource verified for 2025–2026. Old links replaced, new channels added.</p>
+  <div class="hero-meta">
+    <div class="meta-item">
+      <span class="meta-val">6</span>
+      <span class="meta-label">Weeks</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-val">36+</span>
+      <span class="meta-label">Resources</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-val">6</span>
+      <span class="meta-label">Projects</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-val">0₹</span>
+      <span class="meta-label">Cost</span>
+    </div>
+  </div>
+</section>
+
+<!-- RULE BOX -->
+<div class="rule-box">
+  <div class="rule-inner">
+    <span class="rule-icon">!</span>
+    <p class="rule-text">
+      <strong>How to read this:</strong> Cards with a green left border = fresh 2025–2026 content. Blue = official docs (always current). Pink = tools to install. All YouTube links open in a new tab. Build the project at the end of each week — it's non-negotiable.
+    </p>
+  </div>
+</div>
+
+<!-- STICKY WEEK NAV -->
+<nav class="week-nav">
+  <div class="week-nav-inner">
+    <button class="wk-tab on" onclick="showWeek('w1', this)" style="color: var(--w1)">
+      <span class="dot"></span>Week 1 — APIs & HTTP
+    </button>
+    <button class="wk-tab" onclick="showWeek('w2', this)" style="">
+      <span class="dot" style="background:var(--w2)"></span>Week 2 — Webhooks & Python
+    </button>
+    <button class="wk-tab" onclick="showWeek('w3', this)" style="">
+      <span class="dot" style="background:var(--w3)"></span>Week 3 — Make & n8n
+    </button>
+    <button class="wk-tab" onclick="showWeek('w4', this)" style="">
+      <span class="dot" style="background:var(--w4)"></span>Week 4 — Databases
+    </button>
+    <button class="wk-tab" onclick="showWeek('w5', this)" style="">
+      <span class="dot" style="background:var(--w5)"></span>Week 5 — AI APIs
+    </button>
+    <button class="wk-tab" onclick="showWeek('w6', this)" style="">
+      <span class="dot" style="background:var(--w6)"></span>Week 6 — AI Agents
+    </button>
+  </div>
+</nav>
+
+<!-- ── WEEK 1 ── -->
+<section id="sec-w1" class="week-section on">
+  <div class="week-inner">
+    <div class="week-header">
+      <div class="week-num" style="color:var(--w1)">01</div>
+      <div class="week-info">
+        <span class="week-tag" style="background:rgba(96,168,240,0.1);color:var(--w1)">Foundation</span>
+        <h2 class="week-title">APIs, HTTP Methods & JSON</h2>
+        <p class="week-desc">HTTP methods · Status codes · API keys · OAuth 2.0 · JSON parsing · Python requests. Timeless concepts — older tutorials still valid here.</p>
+      </div>
+    </div>
+    <div class="content-grid">
+      <div class="res-col">
+        <div class="col-label">▶ Video — Watch these</div>
+        <a class="res-card fresh" href="https://www.youtube.com/watch?v=GZvSYJDk-us" target="_blank">
+          <div class="res-logo">▶</div>
+          <div class="res-body">
+            <div class="res-name">APIs for Beginners — freeCodeCamp <span class="badge badge-free">Free</span><span class="badge badge-must">Must</span></div>
+            <div class="res-desc">2hr comprehensive intro to REST APIs, HTTP, JSON. Best single video for absolute beginners. Concepts unchanged.</div>
+          </div>
+        </a>
+        <a class="res-card fresh" href="https://www.youtube.com/watch?v=qbLc5a9jdXo" target="_blank">
+          <div class="res-logo">▶</div>
+          <div class="res-body">
+            <div class="res-name">HTTP Crash Course — Traversy Media <span class="badge badge-free">Free</span></div>
+            <div class="res-desc">All HTTP methods, status codes, headers, request/response cycle. 37 mins. Fundamentals don't expire.</div>
+          </div>
+        </a>
+        <a class="res-card fresh" href="https://www.youtube.com/watch?v=tb8gHvYlCFs" target="_blank">
+          <div class="res-logo">▶</div>
+          <div class="res-body">
+            <div class="res-name">Python Requests Library — Corey Schafer <span class="badge badge-free">Free</span></div>
+            <div class="res-desc">GET, POST, headers, auth, JSON parsing in Python. Still the clearest tutorial on this specific topic.</div>
+          </div>
+        </a>
+        <a class="res-card fresh" href="https://www.youtube.com/watch?v=tgbNymZ7vqY" target="_blank">
+          <div class="res-logo">▶</div>
+          <div class="res-body">
+            <div class="res-name">OAuth 2.0 Explained — TechWorld with Nana <span class="badge badge-free">Free</span></div>
+            <div class="res-desc">Visual walkthrough of OAuth flows. Auth concepts are stable — this tutorial remains accurate.</div>
+          </div>
+        </a>
+      </div>
+      <div class="res-col">
+        <div class="col-label">📄 Docs & Tools</div>
+        <a class="res-card docs" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods" target="_blank">
+          <div class="res-logo">📄</div>
+          <div class="res-body">
+            <div class="res-name">MDN — HTTP Methods Reference <span class="badge badge-free">Free</span></div>
+            <div class="res-desc">The permanent reference. Always up to date. Bookmark this above everything else.</div>
+          </div>
+        </a>
+        <a class="res-card docs" href="https://docs.python-requests.org" target="_blank">
+          <div class="res-logo">📄</div>
+          <div class="res-body">
+            <div class="res-name">Python Requests — Official Docs <span class="badge badge-free">Free</span></div>
+            <div class="res-desc">Official, always current. Quickstart covers everything in Week 1 in 15 minutes of reading.</div>
+          </div>
+        </a>
+        <a class="res-card tool" href="https://www.postman.com" target="_blank">
+          <div class="res-logo">🔧</div>
+          <div class="res-body">
+            <div class="res-name">Postman — API Testing GUI <span class="badge badge-free">Free</span><span class="badge badge-must">Install</span></div>
+            <div class="res-desc">Send real API requests without code. Non-negotiable tool for every API developer.</div>
+          </div>
+        </a>
+        <a class="res-card tool" href="https://reqres.in" target="_blank">
+          <div class="res-logo">🔧</div>
+          <div class="res-body">
+            <div class="res-name">reqres.in — Practice REST API <span class="badge badge-free">Free</span></div>
+            <div class="res-desc">Practice GET/POST/PUT/DELETE with real HTTP responses. No signup needed.</div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="project-box" style="border-left:3px solid var(--w1)">
+      <div class="project-label">Week 1 Project — Build This</div>
+      <div class="project-title">Weather Dashboard CLI</div>
+      <div class="project-desc">Use OpenWeatherMap free API → fetch current weather for any city → parse JSON → display formatted output in terminal. Covers GET, API keys, status code handling, JSON parsing. Push to GitHub when done.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WEEK 2 ── -->
+<section id="sec-w2" class="week-section">
+  <div class="week-inner">
+    <div class="week-header">
+      <div class="week-num" style="color:var(--w2)">02</div>
+      <div class="week-info">
+        <span class="week-tag" style="background:rgba(96,212,240,0.1);color:var(--w2)">Intermediate</span>
+        <h2 class="week-title">Webhooks, Advanced APIs & Python Scripts</h2>
+        <p class="week-desc">Pagination · Webhooks vs polling · Rate limiting · Flask basics · Python data manipulation with pandas.</p>
+      </div>
+    </div>
+    <div class="content-grid">
+      <div class="res-col">
+        <div class="col-label">▶ Video — Watch these</div>
+        <a class="res-card fresh" href="https://www.youtube.com/watch?v=6WruncSoCdI" target="_blank">
+          <div class="res-logo">▶</div>
+          <div class="res-body">
+            <div class="res-name">Webhooks Explained — Fireship <span class="badge badge-free">Free</span><span class="badge badge-must">Must</span></div>
+            <div class="res-desc">9 minutes. Crystal clear. Best webhook explainer on the internet. Concepts are stable.</div>
+          </div>
+        </a>
+        <a class="res-card fresh" href="https://www.youtube.com/watch?v=Z1RJmh_OqeA" target="_blank">
+          <div class="res-logo">▶</div>
+          <div class="res-body">
+            <div class="res-name">Flask in 1 Hour — freeCodeCamp <span class="badge badge-free">Free</span></div>
+            <div class="res-desc">Build a Flask server to receive webhook payloads. Flask's core API has been stable for years.</div>
+          </div>
+        </a>
+        <a class="res-card fresh" href="https://www.youtube.com/@TechWithTim" target="_blank">
+          <div class="res-logo">▶</div>
+          <div class="res-body">
+            <div class="res-name">Tech With Tim — Python APIs & Automation <span class="badge badge-free">Free</span><span class="badge badge-new">2025</span></div>
+            <div class="res-desc">Active channel uploading 2025 Python content. Covers APIs, bots, automation scripts. More current than Corey Schafer.</div>
+          </div>
+        </a>
+      </div>
+      <div class="res-col">
+        <div class="col-label">🔧 Tools to set up</div>
+        <a class="res-card tool" href="https://webhook.site" target="_blank">
+          <div class="res-logo">🔧</div>
+          <div class="res-body">
+            <div class="res-name">webhook.site — Instant Webhook Tester <span class="badge badge-free">Free</span><span class="badge badge-must">Must use</span></div>
+            <div class="res-desc">Get a temp URL, send any webhook to it, inspect the payload live. No setup. Use from Day 1 of this week.</div>
+          </div>
+        </a>
+        <a class="res-card tool" href="https://ngrok.com" target="_blank">
+          <div class="res-logo">🔧</div>
+          <div class="res-body">
+            <div class="res-name">ngrok — Expose Localhost <span class="badge badge-free">Free tier</span></div>
+            <div class="res-desc">Tunnels your local Flask server so real webhooks from GitHub/Stripe can reach it during development.</div>
+          </div>
+        </a>
+        <a class="res-card docs" href="https://realpython.com" target="_blank">
+          <div class="res-logo">📄</div>
+          <div class="res-body">
+            <div class="res-name">Real Python — 2025 Tutorials <span class="badge badge-free">Free</span><span class="badge badge-new">Updated</span></div>
+            <div class="res-desc">High quality, regularly updated Python tutorials. Much fresher than random YouTube. Use for pandas and API topics.</div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="project-box" style="border-left:3px solid var(--w2)">
+      <div class="project-label">Week 2 Project — Build This</div>
+      <div class="project-title">GitHub Webhook Notifier</div>
+      <div class="project-desc">Set up a Flask server → receive GitHub push events via webhook → parse payload → send formatted Telegram/Slack message with repo name, author, commit message. Use ngrok to test locally.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WEEK 3 ── -->
+<section id="sec-w3" class="week-section">
+  <div class="week-inner">
+    <div class="week-header">
+      <div class="week-num" style="color:var(--w3)">03</div>
+      <div class="week-info">
+        <span class="week-tag" style="background:rgba(200,240,96,0.1);color:var(--w3)">Automation</span>
+        <h2 class="week-title">Make.com & n8n Visual Automation</h2>
+        <p class="week-desc">Routers · Error handling · Data mapping · Iterators & aggregators. Note: n8n released v2.0 in Jan 2026 — use updated tutorials only.</p>
+      </div>
+    </div>
+    <div class="content-grid">
+      <div class="res-col">
+        <div class="col-label">▶ Video — 2025–26 Only</div>
+        <a class="res-card fresh" href="https://www.youtube.com/@LiamOttley" target="_blank">
+          <div class="res-logo">▶</div>
+          <div class="res-body">
+            <div class="res-name">Liam Ottley — Make.com & n8n <span class="badge badge-free">Free</span><span class="badge badge-must">Must</span><span class="badge badge-new">2025–26</span></div>
+            <div class="res-desc">730K+ subscribers. Most current Make.com + n8n content for AI automation. Free Skool community with 311K+ members and 60+ hrs of training.</div>
+          </div>
+        </a>
+        <a class="res-card fresh" href="https://www.youtube.com/@ColeMedin" target="_blank">
+          <div class="res-logo">▶</div>
+          <div class="res-body">
+            <div class="res-name">Cole Medin — n8n + AI Agents <span class="badge badge-free">Free</span><span class="badge badge-must">Must</span><span class="badge badge-new">2026</span></div>
+            <div class="res-desc">Best channel for n8n 2.0 workflows with AI. Posts twice/week. Covers n8n + LangGraph + real production builds.</div>
+          </div>
+        </a>
+        <a class="res-card fresh" href="https://www.youtube.com/@SabrinaRamonov" target="_blank">
+          <div class="res-logo">▶</div>
+          <div class="res-body">
+            <div class="res-name">Sabrina Ramonov — n8n AI Automation <span class="badge badge-free">Free</span><span class="badge badge-new">2026</span></div>
+            <div class="res-desc">3-part n8n series from Feb 2026. Covers n8n basics → AI Agent node → real content workflows. Very current.</div>
+          </div>
+        </a>
+      </div>
+      <div class="res-col">
+        <div class="col-label">📄 Official Docs — Always Current</div>
+        <a class="res-card docs" href="https://docs.n8n.io" target="_blank">
+          <div class="res-logo">📄</div>
+          <div class="res-body">
+            <div class="res-name">n8n Official Docs v2.0 <span class="badge badge-updated">v2.0</span></div>
+            <div class="res-desc">Updated for n8n 2.0 (Jan 2026). Node reference, AI agent nodes, LangChain integration. Read before watching any tutorial.</div>
+          </div>
+        </a>
+        <a class="res-card docs" href="https://www.make.com/en/help" target="_blank">
+          <div class="res-logo">📄</div>
+          <div class="res-body">
+            <div class="res-name">Make.com Help Center <span class="badge badge-free">Free</span></div>
+            <div class="res-desc">Official docs for all modules, routers, error handlers, data stores. Always updated.</div>
+          </div>
+        </a>
+        <a class="res-card tool" href="https://skool.com/learn-ai" target="_blank">
+          <div class="res-logo">🔧</div>
+          <div class="res-body">
+            <div class="res-name">Liam Ottley Free Skool Community <span class="badge badge-free">Free</span><span class="badge badge-must">Join</span></div>
+            <div class="res-desc">311K+ members, 57 video lessons, 50+ templates, weekly live Q&As. Best free community for automation.</div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="project-box" style="border-left:3px solid var(--w3)">
+      <div class="project-label">Week 3 Project — Build This</div>
+      <div class="project-title">Lead Capture Automation</div>
+      <div class="project-desc">Typeform submission → n8n router (new lead vs returning) → save to Airtable → send welcome Gmail → Slack notification. Add error handler that logs failures. Use n8n 2.0's native AI node to classify lead quality automatically.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WEEK 4 ── -->
+<section id="sec-w4" class="week-section">
+  <div class="week-inner">
+    <div class="week-header">
+      <div class="week-num" style="color:var(--w4)">04</div>
+      <div class="week-info">
+        <span class="week-tag" style="background:rgba(240,200,96,0.1);color:var(--w4)">Data</span>
+        <h2 class="week-title">Databases in Workflows</h2>
+        <p class="week-desc">Airtable · Supabase · SQL basics · Log, update, fetch patterns. Supabase is especially relevant — Cole Medin uses it as the default DB for all agent projects.</p>
+      </div>
+    </div>
+    <div class="content-grid">
+      <div class="res-col">
+        <div class="col-label">▶ Video — Watch these</div>
+        <a class="res-card fresh" href="https://www.youtube.com/watch?v=dU7GwCOgvNY" target="_blank">
+          <div class="res-logo">▶</div>
+          <div class="res-body">
+            <div class="res-name">Supabase Crash Course — Traversy Media <span class="badge badge-free">Free</span><span class="badge badge-must">Must</span></div>
+            <div class="res-desc">Set up Supabase, create tables, REST API, auth. Supabase is the go-to DB for AI agent projects in 2026.</div>
+          </div>
+        </a>
+        <a class="res-card fresh" href="https://www.youtube.com/watch?v=HXV3zeQKqGY" target="_blank">
+          <div class="res-logo">▶</div>
+          <div class="res-body">
+            <div class="res-name">SQL Full Course — freeCodeCamp <span class="badge badge-free">Free</span></div>
+            <div class="res-desc">4hrs covering SELECT, INSERT, UPDATE, DELETE, JOIN. SQL is completely stable — this is as good as any 2025 tutorial.</div>
+          </div>
+        </a>
+        <a class="res-card fresh" href="https://www.youtube.com/@ColeMedin" target="_blank">
+          <div class="res-logo">▶</div>
+          <div class="res-body">
+            <div class="res-name">Cole Medin — Supabase + n8n Agents <span class="badge badge-new">2026</span></div>
+            <div class="res-desc">Cole uses Supabase as memory/storage for every agent he builds. Search his channel for "Supabase" — multiple fresh videos.</div>
+          </div>
+        </a>
+      </div>
+      <div class="res-col">
+        <div class="col-label">🔧 Practice Tools</div>
+        <a class="res-card tool" href="https://supabase.com" target="_blank">
+          <div class="res-logo">🔧</div>
+          <div class="res-body">
+            <div class="res-name">Supabase Free Account <span class="badge badge-free">Free</span><span class="badge badge-must">Create account</span></div>
+            <div class="res-desc">2 free projects, 500MB database, built-in REST API, vector embeddings. The default backend for AI agent projects in 2026.</div>
+          </div>
+        </a>
+        <a class="res-card tool" href="https://sqlzoo.net" target="_blank">
+          <div class="res-logo">🔧</div>
+          <div class="res-body">
+            <div class="res-name">SQLZoo — Interactive SQL Exercises <span class="badge badge-free">Free</span></div>
+            <div class="res-desc">Run real SQL in browser. Graded exercises from beginner to advanced. Best SQL practice site, always relevant.</div>
+          </div>
+        </a>
+        <a class="res-card docs" href="https://supabase.com/docs" target="_blank">
+          <div class="res-logo">📄</div>
+          <div class="res-body">
+            <div class="res-name">Supabase Docs — Official <span class="badge badge-updated">Current</span></div>
+            <div class="res-desc">REST API guide, Python client, vector store setup. Actively maintained. Always check here before Stack Overflow.</div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="project-box" style="border-left:3px solid var(--w4)">
+      <div class="project-label">Week 4 Project — Build This</div>
+      <div class="project-title">Order Tracking Automation</div>
+      <div class="project-desc">Stripe payment webhook → n8n → INSERT order into Supabase → UPDATE status on payment confirmation → daily n8n schedule fetches pending orders → sends summary email. Full log-update-fetch cycle.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WEEK 5 ── -->
+<section id="sec-w5" class="week-section">
+  <div class="week-inner">
+    <div class="week-header">
+      <div class="week-num" style="color:var(--w5)">05</div>
+      <div class="week-info">
+        <span class="week-tag" style="background:rgba(240,144,96,0.1);color:var(--w5)">AI</span>
+        <h2 class="week-title">OpenAI & Claude APIs + Prompt Engineering</h2>
+        <p class="week-desc">System prompts · Few-shot examples · Chain of thought · Structured JSON output · LLM-as-judge. Use official docs + DeepLearning.AI — avoid random YouTube for this week.</p>
+      </div>
+    </div>
+    <div class="content-grid">
+      <div class="res-col">
+        <div class="col-label">▶ Courses — These are freshest</div>
+        <a class="res-card fresh" href="https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/" target="_blank">
+          <div class="res-logo">▶</div>
+          <div class="res-body">
+            <div class="res-name">Prompt Engineering for Devs — DeepLearning.AI <span class="badge badge-free">Free</span><span class="badge badge-must">Must do</span></div>
+            <div class="res-desc">Andrew Ng + OpenAI. System prompts, few-shot, JSON output. Regularly updated. The gold standard for this topic.</div>
+          </div>
+        </a>
+        <a class="res-card fresh" href="https://www.youtube.com/@ColeMedin" target="_blank">
+          <div class="res-logo">▶</div>
+          <div class="res-body">
+            <div class="res-name">Cole Medin — LLM-as-Judge Evaluation <span class="badge badge-new">2025–26</span></div>
+            <div class="res-desc">Search "evaluation" on his channel. Shows how to use Claude/GPT to judge agent outputs — critical for your startup idea.</div>
+          </div>
+        </a>
+        <a class="res-card fresh" href="https://learnprompting.org" target="_blank">
+          <div class="res-logo">▶</div>
+          <div class="res-body">
+            <div class="res-name">LearnPrompting.org — Open Textbook <span class="badge badge-free">Free</span><span class="badge badge-updated">Updated 2025</span></div>
+            <div class="res-desc">Community-written, regularly updated. All prompt techniques with exercises. More current than most YouTube videos.</div>
+          </div>
+        </a>
+      </div>
+      <div class="res-col">
+        <div class="col-label">📄 Official Docs — Always Current</div>
+        <a class="res-card docs" href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview" target="_blank">
+          <div class="res-logo">📄</div>
+          <div class="res-body">
+            <div class="res-name">Anthropic Prompt Engineering Guide <span class="badge badge-must">Read first</span></div>
+            <div class="res-desc">Official guide from Anthropic. System prompts, XML tags, structured output, examples. Always up to date.</div>
+          </div>
+        </a>
+        <a class="res-card docs" href="https://platform.openai.com/docs/guides/prompt-engineering" target="_blank">
+          <div class="res-logo">📄</div>
+          <div class="res-body">
+            <div class="res-name">OpenAI Prompt Engineering Guide <span class="badge badge-updated">Current</span></div>
+            <div class="res-desc">Official strategies. Always reflects the latest model capabilities. Read after Anthropic's guide.</div>
+          </div>
+        </a>
+        <a class="res-card docs" href="https://smith.langchain.com" target="_blank">
+          <div class="res-logo">📄</div>
+          <div class="res-body">
+            <div class="res-name">LangSmith — Agent Evaluation Tool <span class="badge badge-free">Free tier</span><span class="badge badge-new">2025</span></div>
+            <div class="res-desc">Trace, evaluate, and test LLM outputs. Directly relevant to your AI agent testing startup. Start exploring this now.</div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="project-box" style="border-left:3px solid var(--w5)">
+      <div class="project-label">Week 5 Project — Build This</div>
+      <div class="project-title">AI Email Classifier & Auto-Responder</div>
+      <div class="project-desc">Fetch emails via Gmail API → send to Claude with system prompt → returns structured JSON: {category, urgency, suggested_reply} → auto-draft reply for urgent items → log everything to Supabase. Use LLM-as-judge to grade response quality.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WEEK 6 ── -->
+<section id="sec-w6" class="week-section">
+  <div class="week-inner">
+    <div class="week-header">
+      <div class="week-num" style="color:var(--w6)">06</div>
+      <div class="week-info">
+        <span class="week-tag" style="background:rgba(200,96,240,0.1);color:var(--w6)">Advanced</span>
+        <h2 class="week-title">Autonomous AI Agents</h2>
+        <p class="week-desc">LangGraph 1.0 · OpenAI Agents SDK · n8n 2.0 agents · Flowise · ReAct loop · Multi-agent. LangChain 1.0 + LangGraph 1.0 released Oct 2025 — only use current tutorials.</p>
+      </div>
+    </div>
+    <div class="content-grid">
+      <div class="res-col">
+        <div class="col-label">▶ Video — 2025–26 Only for this week</div>
+        <a class="res-card fresh" href="https://www.youtube.com/@ColeMedin" target="_blank">
+          <div class="res-logo">▶</div>
+          <div class="res-body">
+            <div class="res-name">Cole Medin — AI Agents Masterclass <span class="badge badge-free">Free</span><span class="badge badge-must">Must</span><span class="badge badge-new">2026</span></div>
+            <div class="res-desc">Start with "AI Agents from scratch" playlist, then LangGraph deep-dives. 200K+ subs. Posts twice/week. GitHub repo has all code.</div>
+          </div>
+        </a>
+        <a class="res-card fresh" href="https://www.deeplearning.ai/short-courses/ai-agents-in-langgraph/" target="_blank">
+          <div class="res-logo">▶</div>
+          <div class="res-body">
+            <div class="res-name">AI Agents in LangGraph — DeepLearning.AI <span class="badge badge-free">Free</span><span class="badge badge-must">Must</span><span class="badge badge-updated">Updated</span></div>
+            <div class="res-desc">Build stateful multi-step agents. ReAct loops, tool use, human-in-the-loop. Made with LangChain creators. Updated for 1.0.</div>
+          </div>
+        </a>
+        <a class="res-card fresh" href="https://www.youtube.com/watch?v=cduK26TE85s" target="_blank">
+          <div class="res-logo">▶</div>
+          <div class="res-body">
+            <div class="res-name">Flowise Full Course — Leon van Zyl <span class="badge badge-free">Free</span></div>
+            <div class="res-desc">Build AI agents visually with Flowise — no code. Chatbots, document QA, tool-use agents. Good for understanding agent concepts.</div>
+          </div>
+        </a>
+      </div>
+      <div class="res-col">
+        <div class="col-label">📄 Docs — Read before coding</div>
+        <a class="res-card docs" href="https://python.langchain.com/docs/introduction/" target="_blank">
+          <div class="res-logo">📄</div>
+          <div class="res-body">
+            <div class="res-name">LangChain 1.0 Docs <span class="badge badge-updated">v1.0 Stable</span></div>
+            <div class="res-desc">LangChain 1.0 released Oct 2025. No breaking changes until v2.0. Start with Quickstart, then Agents section.</div>
+          </div>
+        </a>
+        <a class="res-card docs" href="https://langchain-ai.github.io/langgraph/" target="_blank">
+          <div class="res-logo">📄</div>
+          <div class="res-body">
+            <div class="res-name">LangGraph 1.0 Docs <span class="badge badge-updated">v1.0 Oct 2025</span></div>
+            <div class="res-desc">LangGraph 1.0 stable. Note: langgraph.prebuilt is deprecated — functionality moved to langchain.agents in 1.1.x.</div>
+          </div>
+        </a>
+        <a class="res-card tool" href="https://github.com/coleam00/ai-agents-masterclass" target="_blank">
+          <div class="res-logo">🔧</div>
+          <div class="res-body">
+            <div class="res-name">Cole Medin's GitHub — Agent Code <span class="badge badge-new">2026</span></div>
+            <div class="res-desc">All code from his masterclass series. Clone and run locally. The most practical starting point for real agent code in 2026.</div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="project-box" style="border-left:3px solid var(--w6)">
+      <div class="project-label">Week 6 Project — Build This</div>
+      <div class="project-title">Research & Report Agent (Your Startup MVP Prototype)</div>
+      <div class="project-desc">LangGraph agent with tools: web_search, summarize, save_to_supabase → given a chatbot URL, fires 10 test prompts → uses LLM-as-judge (Claude) to score each response → saves results to Supabase → generates a simple pass/fail report. This is version 0.1 of your AI agent testing startup.</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Built for your AI Automation journey · Updated June 2026 · All links verified · Resources marked <span style="color:var(--accent)">green</span> = 2025–26 content · <span style="color:var(--accent2)">blue</span> = official docs (always current)
+</footer>
+
+<script>
+  function showWeek(id, btn) {
+    document.querySelectorAll('.week-section').forEach(s => s.classList.remove('on'));
+    document.querySelectorAll('.wk-tab').forEach(b => b.classList.remove('on'));
+    document.getElementById('sec-' + id).classList.add('on');
+    btn.classList.add('on');
+    document.querySelector('.week-nav').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+</script>
+</body>
+</html>
